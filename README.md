@@ -29,4 +29,8 @@ py -3.8 httpserver_test.py
 
 ## add
 项目克隆自cc004的autopcr
-增加了查询竞技场前排用户名称账号功能，查询时间较慢，异步查询todo
+
+增加了查询竞技场前排用户名称账号id功能，查询时间较慢，异步查询todo
+
+可自行修改增加autopcr/module/modules下init文件和tools（粘贴新增代码），
+或者git clone 该jjclist分支
