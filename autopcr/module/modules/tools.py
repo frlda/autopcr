@@ -530,23 +530,26 @@ class get_normal_quest_recommand(Module):
         msg = '\n--------\n'.join(tot)
         self._log(msg)
 
-@description('查询jjc前排，默认页数2为第1-20名')
+@description('查询jjc前排，默认页数1为第1-20名，2为21-40，以此类推')
 @name('查JJC前排')
 @default(True)
-@inttype("opponent_jjc_list", "查询页数", 2, [i for i in range(0, 6)])
+@inttype("opponent_jjc_list", "查询页数", 1, [i for i in range(1, 6)])
 class jjc_rank_list(Module):
     async def do_task(self, client: pcrclient):
-        target_list: int = self.get_config("opponent_jjc_list")
+        target_list: int = self.get_config("opponent_jjc_list") + 1
         for page in range(1, target_list):
             res = {info.rank: info for info in (await client.arena_rank(20, page)).ranking}
             ranking_name = []
-
+            
+            #遍历查询用户id获取用户名，并加入输出结果（因为默认查询竞技场排名列表前50不会返回用户名）            
             for key, value in res.items():
+                #ranking_name.append(str(f"排名: {key}" + '-' + f"-ID:{value.viewer_id}")) #该行代码为只查询id和排名模式（速度更快），使用该行请把下面三行查询用户名的部分注释掉
                 profile = await client.get_profile(value.viewer_id)
                 user_name = profile.user_info.user_name
                 ranking_name.append(str(f"排名: {key}" + '-' + user_name +f"-ID:{value.viewer_id}"))
                 #print(profile)
-
+            
+        #结果输出
         rank_str = '\n'.join(ranking_name)
         msg =  rank_str
         self._log(msg)
@@ -567,22 +570,24 @@ class jjc_rank_list(Module):
         rank_str = '\n'.join(ranking_name)
         msg =  rank_str
         self._log(msg)
-        异步查询优化提升查询速度todo
+        提升查询速度todo
     '''
 
-@description('查询pjjc前排，默认页数2为第1-20名')
+@description('查询pjjc前排，默认页数1为第1-20名，2为21-40，以此类推')
 @name('查PJJC前排')
 @default(True)
-@inttype("opponent_pjjc_list", "查询页数", 2, [i for i in range(0, 6)])
+@inttype("opponent_pjjc_list", "查询页数", 1, [i for i in range(1, 6)])
 class pjjc_rank_list(Module):
 
     async def do_task(self, client: pcrclient):
-        target_list: int = self.get_config("opponent_pjjc_list")
+        target_list: int = self.get_config("opponent_pjjc_list") + 1
         for page in range(1, target_list):
             res = {info.rank: info for info in (await client.grand_arena_rank(20, page)).ranking}
             ranking_name = []
-
+            
+            #遍历查询页数用户id查询用户名，并加入输出结果（因为默认查询竞技场排名列表不会返回用户名）
             for key, value in res.items():
+                #ranking_name.append(str(f"排名: {key}" + '-' + f"-ID:{value.viewer_id}")) #该行代码为只查询id和排名模式（速度更快），使用该行请把下面查询用户名的部分注释掉
                 profile = await client.get_profile(value.viewer_id)
                 user_name = profile.user_info.user_name
                 ranking_name.append(str(f"排名: {key}" + '-' + user_name +f"-ID:{value.viewer_id}"))
