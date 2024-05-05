@@ -28,7 +28,10 @@ py -3.8 httpserver_test.py
 - ~~模型生成来自 [PcrotoGen](https://github.com/cc004/PcrotoGen)~~
 
 ## add
+原仓库已更查前排功能，速度换回原仓库
+
 项目克隆自cc004的autopcr
+![f92f20ebbf2e43e082b2857679951044](https://github.com/frlda/autopcr/assets/97551927/05f9b1d4-9fde-455d-8cac-a14f2eb8dd19)
 
 仅仅增加了查询竞技场前排用户名称账号id功能，查询request需要消耗时间，查询速度优化todo
 
